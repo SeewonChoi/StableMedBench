@@ -3,7 +3,6 @@ from transformers import PreTrainedTokenizerFast
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset
 from torcheval.metrics import BinaryAUROC, BinaryF1Score, BinaryPrecision, BinaryRecall, BinaryConfusionMatrix, BinaryAUPRC
 
 import random
@@ -16,45 +15,7 @@ from collections import OrderedDict
 from models_linear import CustomGPT, CustomMamba
 from mcmed_loader import decomp_loader, sepsis_loader
 from ehrshot_loader import hyperkalemia_loader, hypoglycemia_loader
-
-class LabDataset(Dataset):
-    def __init__(self, data):
-        self.samples, labels = [], []
-        data = data[['eventval', 'start', 'Label', 'age_str', 'gender_str', 'race_str', 'ethnicity_str']]
-        for _, d in data.iterrows():
-            if d['Label'] == 1: 
-                self.samples.append(d)
-                labels.append(d['Label'])
-            else: 
-                if random.random() < 1.0: 
-                    self.samples.append(d)
-                    labels.append(d['Label'])
-        
-        self.index_map = list(range(len(self.samples)))
-        random.shuffle(self.index_map)
-
-        _, counts = torch.unique(torch.tensor(labels), return_counts=True)
-        print(f"Original: {counts}")
-    
-    def __len__(self):
-        return len(self.samples)
-    
-    def __getitem__(self, idx):
-        sample = self.samples[self.index_map[idx]] 
-        label = float(sample['Label'])
-        event = list(sample['eventval'])
-        time = list(sample['start'])
-        demo = [sample['age_str'], sample['gender_str'], sample['race_str'], sample['ethnicity_str']]
-        return event, demo, time, label
-
-    @staticmethod
-    def collate_fn(batch):
-        events = [item[0] for item in batch]
-        demos = [item[1] for item in batch]
-        times = [item[2] for item in batch]
-        labels = [item[3] for item in batch]
-        labels = torch.tensor(labels)
-        return events, demos, times, labels
+from mimic_loader import mortality_loader, icu_loader
 
 class Trainer():
     def __init__(self, model, train_loader, test_loader, val_loader, learning_rate, gpu, save_model=True):
@@ -76,7 +37,9 @@ class Trainer():
         self.tokenizer.cls_token = '[CLS]'
         self.tokenizer.mask_token = '[MASK]'
 
-        self.N = 4
+        self.N = 12
+        self.delta = 1.0
+        self.context_length = 1024
 
         self.network = model(vocab_size = len(self.tokenizer), full=False).to(self.device)
         if args.model == 'load':
@@ -88,7 +51,7 @@ class Trainer():
                     new_state_dict[new_key] = value
             self.network.load_state_dict(new_state_dict, strict=False)
 
-        self.classifier = nn.Linear(len(self.tokenizer)*self.N, 1).to(self.device)
+        self.classifier = nn.Linear(len(self.tokenizer), 1).to(self.device)
 
         params = list(filter(lambda p: p.requires_grad, self.network.parameters())) + list(self.classifier.parameters())
         self.optimizer = torch.optim.AdamW(params, lr=learning_rate)
@@ -105,7 +68,7 @@ class Trainer():
             target = target.to(self.device)
 
             next_probs = self.demo_inference(events, demos, times)
-            output = self.classifier(next_probs.flatten(1)).squeeze(-1)
+            output = self.classifier(next_probs).squeeze(-1).max(dim=-1).values
 
             loss = self.criterion(output, target)
             loss.backward()
@@ -139,7 +102,7 @@ class Trainer():
                 target = target.to(self.device)
 
                 next_tokens = self.demo_inference(events, demos, times)
-                output = self.classifier(next_tokens.flatten(1)).squeeze(-1)
+                output = self.classifier(next_tokens).squeeze(-1).max(dim=-1).values
 
                 output = F.sigmoid(output)
                 preds = output.round()
@@ -192,8 +155,8 @@ class Trainer():
                 # Greedy decoding
                 next_token = torch.argmax(next_token_logits, dim=-1, keepdim=True)
             
-            inputs = [inputs_i[-1023:] + [next_i] for (inputs_i, next_i) in zip(inputs, self.tokenizer.convert_ids_to_tokens(next_token))]
-            times = [t_i[-1023:] + [t_i[-1] + 0.25] for t_i in times]
+            inputs = [inputs_i[-(self.context_length-1):] + [next_i] for (inputs_i, next_i) in zip(inputs, self.tokenizer.convert_ids_to_tokens(next_token))]
+            times = [t_i[-(self.context_length-1):] + [t_i[-1] + self.delta] for t_i in times]
             next_probabilities.append(F.softmax(next_ids[:, -1, :], dim=-1))
         next_probabilities = torch.stack(next_probabilities, dim=1)
         return next_probabilities
@@ -222,8 +185,8 @@ class Trainer():
                 # Greedy decoding
                 next_token = torch.argmax(next_token_logits, dim=-1, keepdim=True)
             
-            inputs = [inputs_i[-1019:] + [next_i] for (inputs_i, next_i) in zip(inputs, self.tokenizer.convert_ids_to_tokens(next_token))]
-            times = [t_i[-1019:] + [t_i[-1] + 0.25] for t_i in times]
+            inputs = [inputs_i[-(self.context_length - 1 - len(d_i)):] + [next_i] for (inputs_i, d_i, next_i) in zip(inputs, demos, self.tokenizer.convert_ids_to_tokens(next_token))]
+            times = [t_i[-(self.context_length - 1 - len(d_i)):] + [t_i[-1] + self.delta] for t_i, d_i in zip(times, demos)]
             next_probabilities.append(next_ids[:, -1, :])
         next_probabilities = torch.stack(next_probabilities, dim=1)
         return next_probabilities
@@ -250,7 +213,7 @@ class Trainer():
 
             if self.save_model and test_acc > self.best_acc:
                 self.best_acc = test_acc
-                torch.save(self.network.state_dict(), f"checkpoints/hg_linear_{args.model}_{args.seed}.pth")
+                torch.save(self.network.state_dict(), f"checkpoints/mortality_linear_{args.model}_{args.seed}.pth")
 
 if __name__ == "__main__":
     # Argument parser
@@ -261,6 +224,7 @@ if __name__ == "__main__":
     parser.add_argument("--learning-rate", type=float, default=1e-5)
     parser.add_argument("--seed", type=int, default=1234)
     parser.add_argument("--model", type=str, choices=["gpt", "mamba"], default="gpt")
+    parser.add_argument("--task", type=str, choices=['sepsis', 'decomp', 'hyperkalemia', 'hypoglycemia', 'icu', 'mortality'], default='sepsis')    
     parser.add_argument("--cuda", action="store_true")
     args = parser.parse_args()
 
@@ -274,15 +238,26 @@ if __name__ == "__main__":
         model = CustomMamba
 
     # Load data
-    (train_loader, val_loader, test_loader) = hypoglycemia_loader(args.batch_size, LabDataset, seed=args.seed)
+    if args.task == 'sepsis':
+        (train_loader, val_loader, test_loader) = sepsis_loader(1.5, args.batch_size, seed=args.seed)
+    elif args.task == 'decomp':
+        (train_loader, val_loader, test_loader) = decomp_loader(1.5, args.batch_size, seed=args.seed)
+    elif args.task == 'hyperkalemia':
+        (train_loader, val_loader, test_loader) = hyperkalemia_loader(args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'hypoglycemia':
+        (train_loader, val_loader, test_loader) = hypoglycemia_loader(args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'icu':
+        (train_loader, val_loader, test_loader) = icu_loader(6.0, args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'mortality':
+        (train_loader, val_loader, test_loader) = mortality_loader(12.0, args.batch_size, context_length=1024, seed=args.seed)
+        
     trainer = Trainer(model, train_loader, test_loader, val_loader, args.learning_rate, args.gpu)
 
     # setup wandb
     config = vars(args)
-    config['task'] = 'hg'
     run = wandb.init(
-        project=f"EHRSHOT_LINEAR",
-        name=f'hg_{args.model}_{args.seed}',
+        project=f"transformer_linear",
+        name=f'{args.task}_{args.model}_{args.seed}',
         config=config)
     print(config)
 

@@ -1,27 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from scipy.stats import linregress, kurtosis, skew
+from dataset import extract_stats
 
 TIME = 1.5
-
-def extract_stats(xs):
-    xs = np.array(xs)
-    x = np.arange(len(xs))
-    slope, _, _, _, _ = linregress(x, xs)
-
-    return pd.Series({
-        'min': xs.min(),
-        'max': xs.max(),
-        'mean': xs.mean(),
-        'std': xs.std(),
-        'median': np.median(xs),
-        'skew': skew(xs),
-        'kurtosis': kurtosis(xs),
-        'slope': slope,
-        'qr_25': np.quantile(xs, 0.25),
-        'qr_75': np.quantile(xs, 0.75),
-    })
 
 def combine_classic(df):
     events = df.groupby('event')['CSN'].nunique().sort_values(ascending=False)

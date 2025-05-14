@@ -18,3 +18,5 @@ femr-cuda==0.1.16
 meds==0.3.3
 meds_reader==0.1.9
 jsonschema
+pyyaml==6.0
+protobuf==3.19.0

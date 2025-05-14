@@ -17,30 +17,6 @@ from models import CustomGPT, CustomMamba
 
 EPS = 1e-2
 
-class SickDataset(Dataset):
-    def __init__(self, data):
-        self.samples = data[['eventval', 'time']]
-        self.index_map = list(range(len(self.samples)))
-        random.shuffle(self.index_map)
-    
-    def __len__(self):
-        return len(self.samples)
-    
-    def __getitem__(self, idx):
-        sample = self.samples.iloc[self.index_map[idx]] 
-        label = torch.tensor(1)
-        event = list(sample['eventval'])
-        time = list(sample['time'])
-        return event, time, label
-
-    @staticmethod
-    def collate_fn(batch):
-        events = [item[0] for item in batch]
-        times = [item[1] for item in batch]
-        labels = [item[2] for item in batch]
-        labels = torch.stack(labels, dim=0)
-        return events, times, labels
-
 class Trainer():
     def __init__(self, model, train_loader, test_loader, val_loader, learning_rate, gpu, save_model=True):
         if gpu >= 0 and torch.cuda.is_available(): device = torch.device("cuda:%d" % gpu)
@@ -166,7 +142,7 @@ if __name__ == "__main__":
         model = CustomMamba
 
     # Load data
-    (train_loader, val_loader, test_loader) = sepsis_loader(args.batch_size, SickDataset, seed=args.seed)
+    (train_loader, val_loader, test_loader) = sepsis_loader(args.batch_size, seed=args.seed)
     print("LOADED")
     trainer = Trainer(model, train_loader, test_loader, val_loader, args.learning_rate, args.gpu)
 

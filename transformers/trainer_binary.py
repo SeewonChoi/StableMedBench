@@ -3,7 +3,6 @@ from transformers import PreTrainedTokenizerFast
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset
 from torcheval.metrics import BinaryAUROC, BinaryF1Score, BinaryPrecision, BinaryRecall, BinaryConfusionMatrix, BinaryAUPRC
 
 import random
@@ -16,6 +15,7 @@ from collections import OrderedDict
 from models import CustomGPT, CustomMamba
 from mcmed_loader import decomp_loader, sepsis_loader
 from ehrshot_loader import hyperkalemia_loader, hypoglycemia_loader
+from mimic_loader import mortality_loader, icu_loader
 
 tokenizer = PreTrainedTokenizerFast(tokenizer_file="data/eventval_tokenizer.json")
 tokenizer.eos_token = '[EOS]'
@@ -24,44 +24,6 @@ tokenizer.bos_token = '[BOS]'
 tokenizer.pad_token = '[PAD]'
 tokenizer.cls_token = '[CLS]'
 tokenizer.mask_token = '[MASK]'
-
-class LabDataset(Dataset):
-    def __init__(self, data):
-        self.samples, labels = [], []
-        data = data[['eventval', 'start', 'Label', 'age_str', 'gender_str', 'race_str', 'ethnicity_str']]
-        for _, d in data.iterrows():
-            if d['Label'] == 1: 
-                self.samples.append(d)
-                labels.append(d['Label'])
-            else: 
-                if random.random() < 1.0: 
-                    self.samples.append(d)
-                    labels.append(d['Label'])
-        
-        self.index_map = list(range(len(self.samples)))
-        random.shuffle(self.index_map)
-
-        _, counts = torch.unique(torch.tensor(labels), return_counts=True)
-        print(f"Original: {counts}")
-    
-    def __len__(self):
-        return len(self.samples)
-    
-    def __getitem__(self, idx):
-        sample = self.samples[self.index_map[idx]] 
-        label = float(sample['Label'])
-        event = [sample['age_str'], sample['gender_str'], sample['race_str'], sample['ethnicity_str']] + list(sample['eventval'])
-        time = list(sample['start'])
-        return event, time, label
-
-    @staticmethod
-    def collate_fn(batch):
-        events = [item[0] for item in batch]
-        times = [item[1] for item in batch]
-        labels = [item[2] for item in batch]
-        labels = torch.tensor(labels)
-        return events, times, labels
-
 
 class Trainer():
     def __init__(self, model, train_loader, test_loader, val_loader, learning_rate, gpu, save_model=True):
@@ -220,14 +182,25 @@ if __name__ == "__main__":
         model = CustomMamba
 
     # Load data
-    (train_loader, val_loader, test_loader) = decomp_loader(args.batch_size, LabDataset)
+    if args.task == 'sepsis':
+        (train_loader, val_loader, test_loader) = sepsis_loader(1.5, args.batch_size, seed=args.seed)
+    elif args.task == 'decomp':
+        (train_loader, val_loader, test_loader) = decomp_loader(1.5, args.batch_size, seed=args.seed)
+    elif args.task == 'hyperkalemia':
+        (train_loader, val_loader, test_loader) = hyperkalemia_loader(args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'hypoglycemia':
+        (train_loader, val_loader, test_loader) = hypoglycemia_loader(args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'icu':
+        (train_loader, val_loader, test_loader) = icu_loader(6.0, args.batch_size, context_length=1024, seed=args.seed)
+    elif args.task == 'mortality':
+        (train_loader, val_loader, test_loader) = mortality_loader(12.0, args.batch_size, context_length=1024, seed=args.seed)
+
     trainer = Trainer(model, train_loader, test_loader, val_loader, args.learning_rate, args.gpu)
 
     # setup wandb
     config = vars(args)
-    config['task'] = 'hypoglycemia'
     run = wandb.init(
-        project=f"EHRSHOT_{args.model}",
+        project=f"transformer-binary",
         config=config)
     print(config)
 

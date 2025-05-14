@@ -1,4 +1,5 @@
 import torch
+from torch.utils.data import Dataset
 
 import os
 import pandas as pd
@@ -8,8 +9,6 @@ import pickle
 
 from sklearn.model_selection import train_test_split
 
-DATA_DIR = '/home/mkeoliya/projects/mc-med/mc-med-1.0.0/data'
-
 COLS_NAME = ['event', 'time', 'value']
 COLS = {
     "labs": ['Component_name', 'Order_time', 'Component_value'],
@@ -17,9 +16,33 @@ COLS = {
     "orders": ['Procedure_ID', 'Order_time'],
 }
 
+class SickDataset(Dataset):
+    def __init__(self, data):
+        self.samples = data[['eventval', 'time']]
+        self.index_map = list(range(len(self.samples)))
+        random.shuffle(self.index_map)
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, idx):
+        sample = self.samples.iloc[self.index_map[idx]] 
+        label = torch.tensor(1)
+        event = list(sample['eventval'])
+        time = list(sample['time'])
+        return event, time, label
+
+    @staticmethod
+    def collate_fn(batch):
+        events = [item[0] for item in batch]
+        times = [item[1] for item in batch]
+        labels = [item[2] for item in batch]
+        labels = torch.stack(labels, dim=0)
+        return events, times, labels
+
 def read_csv_fn(fn):
     cols = COLS[fn]
-    df = pd.read_csv(os.path.join(DATA_DIR, f'{fn}.csv'), usecols=['CSN'] + cols)
+    df = pd.read_csv(f'{fn}.csv', usecols=['CSN'] + cols)
     df = df.rename(columns={c: COLS_NAME[i] for i, c in enumerate(cols)})
     df = df.dropna()
     df['event'] = df['event'].astype(str)
@@ -58,7 +81,7 @@ def bucket_ind(event, val, d):
 
 
 def create_df():
-    visits_df = pd.read_csv(os.path.join(DATA_DIR, 'visits.csv'), usecols=['CSN', 'Arrival_time']) # 'Age', 'Gender', 'Race', 'Ethnicity'
+    visits_df = pd.read_csv('visits.csv', usecols=['CSN', 'Arrival_time']) # 'Age', 'Gender', 'Race', 'Ethnicity'
 
     vitals_df = read_csv_fn('numerics')
     with open('next_token/numerics_buckets.pkl', 'rb') as f:
@@ -93,7 +116,7 @@ def create_df():
     df = df.sort_values(['CSN', 'time']).groupby('CSN').agg(list).reset_index(drop=True)
     return df
 
-def sepsis_loader(batch_size, SickDataset, context_length = 1024, seed=1234, filter=False):
+def sepsis_loader(batch_size, context_length = 1024, seed=1234):
     if os.path.exists("data/eventval.parquet"):
         df = pd.read_parquet("data/eventval.parquet", columns=['time', 'eventval'])
         df = df.sample(10)
@@ -101,26 +124,8 @@ def sepsis_loader(batch_size, SickDataset, context_length = 1024, seed=1234, fil
     else:
         df = create_df()
         print("DONE")
-    
-    if filter:
-        print("FILTER")
-        df2 = pd.read_parquet("data/decomp_data.parquet")
 
-        events = list(df2['event'].unique())
-        print(events)
-
-        df['times2'] = df.apply(lambda x: [t for (t, e) in zip(x['time'], x['eventval']) if e.startswith(tuple(events))], axis=1)
-        print("TIME")
-    
-        df['events2'] = df.apply(lambda x: [e for (t, e) in zip(x['time'], x['eventval']) if e.startswith(tuple(events))], axis=1)
-        print("EVENT")
-
-        df = df.drop(columns=['time', 'eventval'])
-        df = df.rename(columns={'times2': 'time', 'events2':'eventval'})
-
-    df = df[df['time'].apply(len)>0]
     df = df[df['eventval'].apply(len) <= context_length]
-    # df = df[df['eventval'].apply(len) >= 10]
     
     train_inputs, temp_inputs = train_test_split(
         df, test_size=0.4, random_state=seed

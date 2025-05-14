@@ -1,20 +1,64 @@
 import torch
+from torch.utils.data import Dataset
 
 import os
+import random
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from data_stats import plot_event_count
 
-DATA_DIR = '/home/mkeoliya/projects/mc-med'
 TIME = 1.5
 
+class MCMEDDatset(Dataset):
+    def __init__(self, data, sample=False):
+        self.samples, labels = [], []
+        data = data[['eventval', 'time_arrive', 'Label', 'Age_str', 'Gender_str', 'Race_str', 'Ethnicity_str']]
+        
+        if sample: threshold = 0.8
+        else: threshold = 1.0
+
+        for _, d in data.iterrows():
+            if d['Label'] == 1: 
+                self.samples.append(d)
+                labels.append(d['Label'])
+            else: 
+                if random.random() < threshold: 
+                    self.samples.append(d)
+                    labels.append(d['Label'])
+        
+        self.index_map = list(range(len(self.samples)))
+        random.shuffle(self.index_map)
+
+        _, counts = torch.unique(torch.tensor(labels), return_counts=True)
+        print(f"Original: {counts}")
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, idx):
+        sample = self.samples[self.index_map[idx]] 
+        label = float(sample['Label'])
+        event = list(sample['eventval'])
+        time = sample['time_arrive']
+        demo = [sample['Age_str'], sample['Gender_str'], sample['Race_str'], sample['Ethnicity_str']]
+        return event, demo, time, label
+
+    @staticmethod
+    def collate_fn(batch):
+        events = [item[0] for item in batch]
+        demos = [item[1] for item in batch]
+        times = [item[2] for item in batch]
+        labels = [item[3] for item in batch]
+        labels = torch.tensor(labels)
+        return events, demos, times, labels
+
 def decomp_loader(batch_size, SickDataset, model, context_length=1024, plot=False, seed=1234):
-    df = pd.read_parquet(os.path.join(DATA_DIR, "data/decompensation_data.parquet"))
-    demo_df = pd.read_parquet(os.path.join(DATA_DIR, "data/decompensation_demo.parquet"), 
+    df = pd.read_parquet("data/decompensation_data.parquet")
+    demo_df = pd.read_parquet("data/decompensation_demo.parquet", 
                               columns=['CSN', 'Age_str', 'Race_str', 'Ethnicity_str', 'Gender_str'])
     
-    label_df = pd.read_parquet(os.path.join(DATA_DIR, "data/decompensation.parquet"))
+    label_df = pd.read_parquet("data/decompensation.parquet")
     label_df['Time'] = label_df.apply(lambda x: x['Trigger_time'] if x['Label'] else x['Sample_time'], axis=1)
     label_df = label_df[label_df['Time'] >= TIME]
     
@@ -51,9 +95,9 @@ def decomp_loader(batch_size, SickDataset, model, context_length=1024, plot=Fals
 
 
 def sepsis_loader(time, batch_size, SickDataset, model, context_length=1000, seed=1234, plot=False):
-    df = pd.read_parquet(os.path.join(DATA_DIR, "data/eSOFA_data.parquet"))
-    label_df = pd.read_parquet(os.path.join(DATA_DIR, "data/eSOFA.parquet"))
-    demo_df = pd.read_parquet(os.path.join(DATA_DIR, "data/eSOFA_demo.parquet"),
+    df = pd.read_parquet("data/eSOFA_data.parquet")
+    label_df = pd.read_parquet("data/eSOFA.parquet")
+    demo_df = pd.read_parquet("data/eSOFA_demo.parquet",
                               columns=['CSN', 'Age_str', 'Race_str', 'Ethnicity_str', 'Gender_str'])
 
     label_df['Time'] = label_df.apply(lambda x: x['Trigger_time'] if x['Label'] else x['Sample_time'], axis=1)

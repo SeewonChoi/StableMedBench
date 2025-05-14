@@ -1,6 +1,6 @@
 import pandas as pd
-import numpy as np
-from scipy.stats import linregress, kurtosis, skew
+
+from dataset import extract_stats
 
 TIME = 1.0
 
@@ -82,21 +82,3 @@ def run_get_classic(df, start=0, end=30):
     df_grouped[count_columns] = df_grouped[count_columns].fillna(0)
 
     return df_grouped
-
-def extract_stats(xs):
-    xs = np.array(xs, dtype=float)
-    x = np.arange(len(xs))
-    slope, _, _, _, _ = linregress(x, xs)
-
-    return pd.Series({
-        'min': xs.min(),
-        'max': xs.max(),
-        'mean': xs.mean(),
-        'std': xs.std(),
-        'median': np.median(xs),
-        'skew': skew(xs),
-        'kurtosis': kurtosis(xs),
-        'slope': slope,
-        'qr_25': np.quantile(xs, 0.25),
-        'qr_75': np.quantile(xs, 0.75),
-    })
