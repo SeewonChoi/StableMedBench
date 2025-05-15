@@ -1,0 +1,86 @@
+2025-05-13 21:41:15,032 - INFO - Configuration loaded from /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/configs/qwen32b_stability.py
+2025-05-13 21:41:15,032 - INFO - Starting prediction workflow.
+2025-05-13 21:41:15,032 - INFO - --- Finetuning Skipped ---
+2025-05-13 21:41:15,032 - INFO - Running inference directly on base model: Qwen/Qwen3-32B
+2025-05-13 21:41:15,032 - INFO - --- Inference Step ---
+2025-05-13 21:41:15,032 - ERROR - Error during inference: 'Namespace' object has no attribute 'limit_x'
+Traceback (most recent call last):
+  File "/home/mkeoliya/projects/arpa-h/llm/main.py", line 111, in main
+    true_labels, predicted_labels_bool, extracted_texts, csns, test_prompts, predicted_probs = run_inference(config.BASE_MODEL_ID, finetuned_adapter_path, LIMIT_X=args.limit_x, stability=args.stability)
+                                                                                                                                                                   ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'limit_x'
+2025-05-13 21:41:15,033 - CRITICAL - Workflow stopped due to inference error.
+2025-05-13 21:41:42,408 - INFO - Configuration loaded from /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/configs/qwen32b_stability.py
+2025-05-13 21:41:42,408 - INFO - Starting prediction workflow.
+2025-05-13 21:41:42,408 - INFO - --- Finetuning Skipped ---
+2025-05-13 21:41:42,408 - INFO - Running inference directly on base model: Qwen/Qwen3-32B
+2025-05-13 21:41:42,408 - INFO - --- Inference Step ---
+2025-05-13 21:45:00,041 - INFO - Median prompt length: 6444 tokens.
+2025-05-13 21:45:00,041 - INFO - Max prompt length: 7041 tokens.
+2025-05-13 21:45:00,043 - ERROR - Error during inference: Got lora_request LoRARequest(lora_name='qlora_adapter', lora_int_id=1, lora_path='/home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/finetuned_adapter', lora_local_path=None, long_lora_max_len=None, base_model_name=None) but LoRA is not enabled!
+Traceback (most recent call last):
+  File "/home/mkeoliya/projects/arpa-h/llm/main.py", line 111, in main
+    true_labels, predicted_labels_bool, extracted_texts, csns, test_prompts, predicted_probs = run_inference(config.BASE_MODEL_ID, finetuned_adapter_path, LIMIT_X=args.num_inf_rows, stability=args.stability)
+                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mkeoliya/projects/arpa-h/llm/inference.py", line 88, in run_inference
+    outputs = llm.generate(test_prompts, sampling_params, lora_request=LoRARequest(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/utils.py", line 1134, in inner
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/entrypoints/llm.py", line 462, in generate
+    self._validate_and_add_requests(
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/entrypoints/llm.py", line 1342, in _validate_and_add_requests
+    self._add_request(
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/entrypoints/llm.py", line 1360, in _add_request
+    self.llm_engine.add_request(
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/v1/engine/llm_engine.py", line 186, in add_request
+    request = self.processor.process_inputs(request_id, prompt, params,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/v1/engine/processor.py", line 211, in process_inputs
+    self._validate_lora(lora_request)
+  File "/home/mkeoliya/.conda/envs/arpah/lib/python3.11/site-packages/vllm/v1/engine/processor.py", line 141, in _validate_lora
+    raise ValueError(f"Got lora_request {lora_request} but LoRA is "
+ValueError: Got lora_request LoRARequest(lora_name='qlora_adapter', lora_int_id=1, lora_path='/home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/finetuned_adapter', lora_local_path=None, long_lora_max_len=None, base_model_name=None) but LoRA is not enabled!
+2025-05-13 21:45:00,059 - CRITICAL - Workflow stopped due to inference error.
+2025-05-13 21:45:59,639 - INFO - Configuration loaded from /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/configs/qwen32b_stability.py
+2025-05-13 21:45:59,639 - INFO - Starting prediction workflow.
+2025-05-13 21:45:59,639 - INFO - --- Finetuning Skipped ---
+2025-05-13 21:45:59,639 - INFO - Running inference directly on base model: Qwen/Qwen3-32B
+2025-05-13 21:45:59,640 - INFO - --- Inference Step ---
+2025-05-13 21:49:05,335 - INFO - Median prompt length: 6444 tokens.
+2025-05-13 21:49:05,335 - INFO - Max prompt length: 7041 tokens.
+2025-05-13 21:50:14,175 - ERROR - Error during inference: too many values to unpack (expected 6)
+Traceback (most recent call last):
+  File "/home/mkeoliya/projects/arpa-h/llm/main.py", line 111, in main
+    true_labels, predicted_labels_bool, extracted_texts, csns, test_prompts, predicted_probs = run_inference(config.BASE_MODEL_ID, finetuned_adapter_path, LIMIT_X=args.num_inf_rows, stability=args.stability)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 6)
+2025-05-13 21:50:14,176 - CRITICAL - Workflow stopped due to inference error.
+2025-05-13 21:51:30,400 - INFO - Configuration loaded from /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/configs/qwen32b_stability.py
+2025-05-13 21:51:30,400 - INFO - Starting prediction workflow.
+2025-05-13 21:51:30,400 - INFO - --- Finetuning Skipped ---
+2025-05-13 21:51:30,400 - INFO - Running inference directly on base model: Qwen/Qwen3-32B
+2025-05-13 21:51:30,400 - INFO - --- Inference Step ---
+2025-05-13 21:54:52,391 - INFO - Median prompt length: 6444 tokens.
+2025-05-13 21:54:52,391 - INFO - Max prompt length: 7041 tokens.
+2025-05-13 21:56:38,504 - INFO - Inference completed.
+2025-05-13 21:56:38,505 - INFO - Inference duration: 308.10 seconds
+2025-05-13 21:56:38,505 - INFO - --- Evaluation Step ---
+2025-05-13 21:56:38,588 - INFO - CSN: 115967106, Lipschitz Constant: 42.0000 Max times: 2046108.0, 2046109.0
+2025-05-13 21:56:39,226 - INFO - Evaluation completed.
+2025-05-13 21:56:39,226 - INFO - Final Metrics: Precision=1.0000, Recall=0.5556, F1=0.7143, AUPRC=1.0000, AUROC=1.0000
+2025-05-13 21:56:39,228 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_stability/results.json
+2025-05-13 21:56:39,228 - INFO - Sepsis prediction workflow finished.
+2025-05-13 22:02:22,778 - INFO - Configuration loaded from /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/configs/qwen32b_stability.py
+2025-05-13 22:02:22,778 - INFO - Starting prediction workflow.
+2025-05-13 22:02:22,778 - INFO - --- Finetuning Skipped ---
+2025-05-13 22:02:22,778 - INFO - Running inference directly on base model: Qwen/Qwen3-32B
+2025-05-13 22:02:22,778 - INFO - Results file /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_stability/results.json already exists. Skipping inference.
+2025-05-13 22:02:22,779 - INFO - Inference results loaded from existing file.
+2025-05-13 22:02:22,779 - INFO - --- Evaluation Step ---
+2025-05-13 22:02:22,848 - INFO - CSN: 115967106, Lipschitz Constant: 42.0000 Max times: 2046108.0, 2046109.0
+2025-05-13 22:02:23,751 - INFO - Evaluation completed.
+2025-05-13 22:02:23,751 - INFO - Final Metrics: Precision=1.0000, Recall=0.5556, F1=0.7143, AUPRC=1.0000, AUROC=1.0000
+2025-05-13 22:02:23,753 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_stability/results.json
+2025-05-13 22:02:23,753 - INFO - Sepsis prediction workflow finished.

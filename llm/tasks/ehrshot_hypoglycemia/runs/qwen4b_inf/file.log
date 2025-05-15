@@ -1,0 +1,128 @@
+2025-05-13 15:07:43,866 - WARNING - Prompt truncated to fit model's max length: 9829 tokens for CSN 115967149
+2025-05-13 15:07:43,896 - WARNING - Prompt truncated to fit model's max length: 9854 tokens for CSN 115967423
+2025-05-13 15:07:43,933 - WARNING - Prompt truncated to fit model's max length: 10870 tokens for CSN 115967602
+2025-05-13 15:07:43,972 - WARNING - Prompt truncated to fit model's max length: 9692 tokens for CSN 115973673
+2025-05-13 15:07:44,003 - WARNING - Prompt truncated to fit model's max length: 10456 tokens for CSN 115967810
+2025-05-13 15:07:44,072 - WARNING - Prompt truncated to fit model's max length: 11049 tokens for CSN 115969120
+2025-05-13 15:07:44,132 - WARNING - Prompt truncated to fit model's max length: 10496 tokens for CSN 115968910
+2025-05-13 15:07:44,158 - WARNING - Prompt truncated to fit model's max length: 10192 tokens for CSN 115971630
+2025-05-13 15:07:44,186 - WARNING - Prompt truncated to fit model's max length: 9987 tokens for CSN 115973163
+2025-05-13 15:07:44,226 - WARNING - Prompt truncated to fit model's max length: 9690 tokens for CSN 115970227
+2025-05-13 15:07:44,265 - WARNING - Prompt truncated to fit model's max length: 9638 tokens for CSN 115968893
+2025-05-13 15:07:44,299 - WARNING - Prompt truncated to fit model's max length: 10594 tokens for CSN 115968665
+2025-05-13 15:07:44,332 - WARNING - Prompt truncated to fit model's max length: 10751 tokens for CSN 115968459
+2025-05-13 15:07:44,376 - WARNING - Prompt truncated to fit model's max length: 10318 tokens for CSN 115973785
+2025-05-13 15:07:44,423 - WARNING - Prompt truncated to fit model's max length: 10399 tokens for CSN 115972274
+2025-05-13 15:07:44,456 - WARNING - Prompt truncated to fit model's max length: 9787 tokens for CSN 115973034
+2025-05-13 15:07:44,497 - WARNING - Prompt truncated to fit model's max length: 10419 tokens for CSN 115969868
+2025-05-13 15:07:44,541 - WARNING - Prompt truncated to fit model's max length: 10307 tokens for CSN 115969057
+2025-05-13 15:07:44,584 - WARNING - Prompt truncated to fit model's max length: 9485 tokens for CSN 115969467
+2025-05-13 15:07:44,614 - WARNING - Prompt truncated to fit model's max length: 9973 tokens for CSN 115971684
+2025-05-13 15:07:44,640 - WARNING - Prompt truncated to fit model's max length: 10099 tokens for CSN 115968054
+2025-05-13 15:07:44,684 - WARNING - Prompt truncated to fit model's max length: 10039 tokens for CSN 115971200
+2025-05-13 15:07:44,728 - WARNING - Prompt truncated to fit model's max length: 10540 tokens for CSN 115972581
+2025-05-13 15:07:44,768 - WARNING - Prompt truncated to fit model's max length: 9998 tokens for CSN 115970666
+2025-05-13 15:07:44,830 - WARNING - Prompt truncated to fit model's max length: 10134 tokens for CSN 115969693
+2025-05-13 15:07:44,856 - WARNING - Prompt truncated to fit model's max length: 10351 tokens for CSN 115967510
+2025-05-13 15:07:44,892 - WARNING - Prompt truncated to fit model's max length: 10355 tokens for CSN 115970430
+2025-05-13 15:07:44,923 - WARNING - Prompt truncated to fit model's max length: 10173 tokens for CSN 115971540
+2025-05-13 15:07:44,976 - WARNING - Prompt truncated to fit model's max length: 10350 tokens for CSN 115968364
+2025-05-13 15:07:45,490 - INFO - Median prompt length: 2179 tokens.
+2025-05-13 15:07:45,495 - INFO - Max prompt length: 3948 tokens.
+2025-05-13 15:07:45,497 - WARNING - Truncated 29 prompts due to length issues.
+2025-05-13 15:08:19,064 - WARNING - Prompt truncated to fit model's max length: 9829 tokens for CSN 115967149
+2025-05-13 15:08:19,093 - WARNING - Prompt truncated to fit model's max length: 9854 tokens for CSN 115967423
+2025-05-13 15:08:19,127 - WARNING - Prompt truncated to fit model's max length: 10870 tokens for CSN 115967602
+2025-05-13 15:08:19,166 - WARNING - Prompt truncated to fit model's max length: 9692 tokens for CSN 115973673
+2025-05-13 15:08:19,196 - WARNING - Prompt truncated to fit model's max length: 10456 tokens for CSN 115967810
+2025-05-13 15:08:19,248 - WARNING - Prompt truncated to fit model's max length: 11049 tokens for CSN 115969120
+2025-05-13 15:08:19,299 - WARNING - Prompt truncated to fit model's max length: 10496 tokens for CSN 115968910
+2025-05-13 15:08:19,325 - WARNING - Prompt truncated to fit model's max length: 10192 tokens for CSN 115971630
+2025-05-13 15:08:19,352 - WARNING - Prompt truncated to fit model's max length: 9987 tokens for CSN 115973163
+2025-05-13 15:08:19,391 - WARNING - Prompt truncated to fit model's max length: 9690 tokens for CSN 115970227
+2025-05-13 15:08:19,429 - WARNING - Prompt truncated to fit model's max length: 9638 tokens for CSN 115968893
+2025-05-13 15:08:19,461 - WARNING - Prompt truncated to fit model's max length: 10594 tokens for CSN 115968665
+2025-05-13 15:08:19,492 - WARNING - Prompt truncated to fit model's max length: 10751 tokens for CSN 115968459
+2025-05-13 15:08:19,534 - WARNING - Prompt truncated to fit model's max length: 10318 tokens for CSN 115973785
+2025-05-13 15:08:19,580 - WARNING - Prompt truncated to fit model's max length: 10399 tokens for CSN 115972274
+2025-05-13 15:08:19,626 - WARNING - Prompt truncated to fit model's max length: 9787 tokens for CSN 115973034
+2025-05-13 15:08:19,667 - WARNING - Prompt truncated to fit model's max length: 10419 tokens for CSN 115969868
+2025-05-13 15:08:19,718 - WARNING - Prompt truncated to fit model's max length: 10307 tokens for CSN 115969057
+2025-05-13 15:08:19,774 - WARNING - Prompt truncated to fit model's max length: 9485 tokens for CSN 115969467
+2025-05-13 15:08:19,801 - WARNING - Prompt truncated to fit model's max length: 9973 tokens for CSN 115971684
+2025-05-13 15:08:19,824 - WARNING - Prompt truncated to fit model's max length: 10099 tokens for CSN 115968054
+2025-05-13 15:08:19,883 - WARNING - Prompt truncated to fit model's max length: 10039 tokens for CSN 115971200
+2025-05-13 15:08:19,924 - WARNING - Prompt truncated to fit model's max length: 10540 tokens for CSN 115972581
+2025-05-13 15:08:19,959 - WARNING - Prompt truncated to fit model's max length: 9998 tokens for CSN 115970666
+2025-05-13 15:08:20,017 - WARNING - Prompt truncated to fit model's max length: 10134 tokens for CSN 115969693
+2025-05-13 15:08:20,042 - WARNING - Prompt truncated to fit model's max length: 10351 tokens for CSN 115967510
+2025-05-13 15:08:20,076 - WARNING - Prompt truncated to fit model's max length: 10355 tokens for CSN 115970430
+2025-05-13 15:08:20,105 - WARNING - Prompt truncated to fit model's max length: 10173 tokens for CSN 115971540
+2025-05-13 15:08:20,156 - WARNING - Prompt truncated to fit model's max length: 10350 tokens for CSN 115968364
+2025-05-13 15:08:20,638 - INFO - Median prompt length: 2179 tokens.
+2025-05-13 15:08:20,639 - INFO - Max prompt length: 3948 tokens.
+2025-05-13 15:08:20,640 - WARNING - Truncated 29 prompts due to length issues.
+2025-05-13 15:10:24,077 - INFO - --- Evaluation Step ---
+2025-05-13 15:10:24,080 - ERROR - Error during evaluation: evaluate_predictions() missing 1 required positional argument: 'predicted_probs'
+Traceback (most recent call last):
+  File "/tmp/ipykernel_1813939/1442778811.py", line 4, in <module>
+    evaluation_metrics = evaluate_predictions(true_labels, predicted_labels, predicted_probs)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: evaluate_predictions() missing 1 required positional argument: 'predicted_probs'
+2025-05-13 15:10:24,083 - CRITICAL - Workflow completed with evaluation error.
+2025-05-13 15:12:48,222 - INFO - --- Evaluation Step ---
+2025-05-13 15:12:48,439 - INFO - Evaluation completed.
+2025-05-13 15:12:48,441 - INFO - Final Metrics: Precision=0.0000, Recall=0.0000, F1=0.0000, AUPRC=0.0141, AUROC=0.5380
+2025-05-13 15:13:52,464 - INFO - --- Evaluation Step ---
+2025-05-13 15:13:52,486 - INFO - Evaluation completed.
+2025-05-13 15:13:52,487 - INFO - Final Metrics: Precision=0.0000, Recall=0.0000, F1=0.0000, AUPRC=0.0141, AUROC=0.5380
+2025-05-13 15:13:52,495 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_inf/results.json
+2025-05-13 15:17:36,810 - INFO - Median prompt length: 2625 tokens.
+2025-05-13 15:17:36,813 - INFO - Max prompt length: 7104 tokens.
+2025-05-13 15:28:32,725 - INFO - Median prompt length: 2820 tokens.
+2025-05-13 15:28:32,727 - INFO - Max prompt length: 7598 tokens.
+2025-05-13 15:36:37,408 - INFO - --- Evaluation Step ---
+2025-05-13 15:36:37,410 - ERROR - Error during evaluation: evaluate_predictions() takes 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/tmp/ipykernel_1827307/3129806014.py", line 4, in <module>
+    evaluation_metrics = evaluate_predictions([], true_labels, predicted_labels, predicted_probs)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: evaluate_predictions() takes 3 positional arguments but 4 were given
+2025-05-13 15:36:37,411 - CRITICAL - Workflow completed with evaluation error.
+2025-05-13 15:36:49,280 - INFO - --- Evaluation Step ---
+2025-05-13 15:36:49,390 - INFO - Evaluation completed.
+2025-05-13 15:36:49,391 - INFO - Final Metrics: Precision=0.3158, Recall=0.3103, F1=0.3130, AUPRC=0.2450, AUROC=0.8286
+2025-05-13 15:36:49,410 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_inf/results.json
+2025-05-13 16:22:33,476 - INFO - Median prompt length: 3084 tokens.
+2025-05-13 16:22:33,494 - INFO - Max prompt length: 7488 tokens.
+2025-05-13 16:35:59,704 - INFO - --- Evaluation Step ---
+2025-05-13 16:35:59,838 - INFO - Evaluation completed.
+2025-05-13 16:35:59,839 - INFO - Final Metrics: Precision=0.1538, Recall=0.2353, F1=0.1860, AUPRC=0.1186, AUROC=0.7727
+2025-05-13 16:35:59,870 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hypoglycemia/runs/qwen32b_inf/results.json
+2025-05-13 16:47:07,622 - WARNING - Prompt truncated to fit model's max length: 16141 tokens for CSN 115968730
+2025-05-13 16:47:07,925 - WARNING - Prompt truncated to fit model's max length: 15221 tokens for CSN 115970448
+2025-05-13 16:47:08,417 - WARNING - Prompt truncated to fit model's max length: 17595 tokens for CSN 115970393
+2025-05-13 16:47:08,474 - WARNING - Prompt truncated to fit model's max length: 15558 tokens for CSN 115972231
+2025-05-13 16:47:09,046 - WARNING - Prompt truncated to fit model's max length: 17355 tokens for CSN 115967960
+2025-05-13 16:47:09,360 - WARNING - Prompt truncated to fit model's max length: 15906 tokens for CSN 115970553
+2025-05-13 16:47:09,877 - WARNING - Prompt truncated to fit model's max length: 17215 tokens for CSN 115969736
+2025-05-13 16:47:09,963 - WARNING - Prompt truncated to fit model's max length: 17395 tokens for CSN 115970855
+2025-05-13 16:47:10,306 - WARNING - Prompt truncated to fit model's max length: 14898 tokens for CSN 115970684
+2025-05-13 16:47:10,782 - WARNING - Prompt truncated to fit model's max length: 16125 tokens for CSN 115972256
+2025-05-13 16:47:11,585 - WARNING - Prompt truncated to fit model's max length: 17447 tokens for CSN 115972869
+2025-05-13 16:47:12,167 - WARNING - Prompt truncated to fit model's max length: 15855 tokens for CSN 115969702
+2025-05-13 16:47:12,211 - WARNING - Prompt truncated to fit model's max length: 16754 tokens for CSN 115971045
+2025-05-13 16:47:12,469 - WARNING - Prompt truncated to fit model's max length: 16068 tokens for CSN 115973097
+2025-05-13 16:47:12,524 - WARNING - Prompt truncated to fit model's max length: 17535 tokens for CSN 115970699
+2025-05-13 16:47:12,568 - WARNING - Prompt truncated to fit model's max length: 17472 tokens for CSN 115967233
+2025-05-13 16:47:14,171 - WARNING - Prompt truncated to fit model's max length: 17943 tokens for CSN 115971729
+2025-05-13 16:47:15,285 - WARNING - Prompt truncated to fit model's max length: 17163 tokens for CSN 115968930
+2025-05-13 16:47:16,016 - WARNING - Prompt truncated to fit model's max length: 15665 tokens for CSN 115971315
+2025-05-13 16:47:16,161 - WARNING - Prompt truncated to fit model's max length: 17014 tokens for CSN 115968682
+2025-05-13 16:47:23,650 - INFO - Median prompt length: 2947 tokens.
+2025-05-13 16:47:23,653 - INFO - Max prompt length: 6948 tokens.
+2025-05-13 16:47:23,654 - WARNING - Truncated 20 prompts due to length issues.
+2025-05-13 16:56:18,567 - INFO - --- Evaluation Step ---
+2025-05-13 16:56:18,598 - INFO - Evaluation completed.
+2025-05-13 16:56:18,600 - INFO - Final Metrics: Precision=0.0817, Recall=0.4146, F1=0.1365, AUPRC=0.0772, AUROC=0.7172
+2025-05-13 16:56:18,630 - INFO - Results saved to /home/mkeoliya/projects/arpa-h/llm/tasks/ehrshot_hyperkalemia/runs/qwen32b_inf/results.json
