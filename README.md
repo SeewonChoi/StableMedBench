@@ -22,9 +22,9 @@ Set `DATA_DIR` to `data/{TASK}` for each task.
   Additionally for stability, run `classical/stability --task {TASK}`
 
 
-* For transformers GPT2, GPT2-AR and Mamba, first create a tokenizer with files under `tokenizer`.
+* For transformers GPT2, GPT2-AR and Mamba,  run `python trainer_binary.py --task {TASK}`.
 
-  Then, run `python trainer_binary.py --task {TASK}`.
+  The steps for reproducing the tokenizer is under `tokenizer`. 
 
   Optionally, to pre-train the model, use `python pretrain/trainer.py`, 
   and modify the loader in `pretrain/trainer.py` to load the dataset you want to pre-train on.
