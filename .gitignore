@@ -16,10 +16,10 @@ data
 wandb
 checkpoints
 results
+Benchmark_scripts/
 
 *.pt
 *.pkl
 *.pth
 *.txt
-*.csv
 *.parquet

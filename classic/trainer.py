@@ -12,10 +12,10 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support, roc
 import pandas as pd
 from sklearn.impute import SimpleImputer, KNNImputer
 
-from mimic_icu import icu_loader
-from mimic_mortality import mortality_loader
-from mcmed import sepsis_loader, decomp_loader
-from ehrshot import hyperkalemia_loader, hypolgycemia_loader 
+from icu_loader import icu_loader
+from mortality_loader import mortality_loader
+from mcmed_loader import sepsis_loader, decomp_loader
+from ehrshot_loader import hyperkalemia_loader, hypolgycemia_loader 
 
 def impute(X_train, X_test, X_val, method, i):
     features = X_train.columns
