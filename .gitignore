@@ -22,4 +22,4 @@ Benchmark_scripts/
 *.pkl
 *.pth
 *.txt
-*.parquet
+*.csv
